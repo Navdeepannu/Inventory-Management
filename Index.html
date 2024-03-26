@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+</head>
+<body>
+    <h1>Inventory Management</h1>
+
+    <script>
+
+        // Initial inventory
+        const inventory = [
+            {productID: 1, name: 'motor', price: 10, quantity: 10},
+            {productID: 2, name: 'sensor', price: 12.50, quantity: 4},
+            {productID: 3, name: 'LED', price: 1, quantity: 20}
+        ];
+
+        // Add Product function
+        function addProduct(productID, name, price, quantity) {
+            let add = prompt("Do you want to add a new product? (y/n)");
+
+            if (add == 'y' || add == 'Y' || add == 'yes' || add == 'YES' || add == 'Yes') {
+                productID = parseInt(prompt("Enter the product ID"));
+                name = prompt("Enter the product name");
+                price = parseFloat(prompt("Enter the product price"));
+                quantity = parseInt(prompt("Enter the product quantity"));
+
+                inventory.push({productID, name, price, quantity});
+
+                console.log("Product added successfully");
+
+            } else return false;
+
+        }
+
+        // Remvove Product function
+        function removeProduct(productID) {
+            // Prompt use to ask if user want to remove product
+            let confirmRemove = prompt("Do you want to remove a product? (y/n)");
+            confirmRemove = confirmRemove.toLowerCase();
+
+            // Remove product
+            if (confirmRemove == 'y' || confirmRemove == 'yes'){
+                let confirmProductID = parseInt(prompt("Enter the product ID of the product that you want to remove"));
+
+                // check the product exist in the inventory
+                let index = inventory.findIndex(product => product.productID == confirmProductID);
+                
+                if (index !== -1) {
+                    // Remove product from inventory
+                    inventory.splice(index, 1);
+                    console.log("Product removed successfully");
+                }else{
+                    console.log("Product not found in inventory.");
+                }
+           
+            } else {
+                console.log("No product removed");
+            }
+        }
+
+        // Display Product function
+        function displayProduct() {
+            console.table(inventory);
+        }
+
+        // Calculate Total function
+        function calcaulteTotal() {
+            let total = 0;
+            for (let i = 0; i < inventory.length; i++) {
+                total += inventory[i].price * inventory[i].quantity;
+            }
+            console.log("Total inventory value: $" + total);
+        }
+
+
+        // Function Call
+        displayProduct();
+        addProduct();
+        displayProduct();
+        removeProduct();
+        displayProduct();
+        calcaulteTotal();
+       
+    </script>
+</body>
+</html>
