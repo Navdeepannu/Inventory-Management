@@ -6,8 +6,12 @@
     <title>Inventory Management</title>
 </head>
 <body>
-    <h1>Inventory Management</h1>
 
+    <div id="inventoryDisplay"></div>
+
+    <button onclick="addProduct()">Add Product</button>
+    <button onclick="removeProduct()">Remove Product</button>
+    <button onclick="calculateTotal()">Calculate Total</button>
     <script>
 
         // Initial inventory
@@ -17,72 +21,51 @@
             {productID: 3, name: 'LED', price: 1, quantity: 20}
         ];
 
-        // Add Product function
-        function addProduct(productID, name, price, quantity) {
-            let add = prompt("Do you want to add a new product? (y/n)");
-
-            if (add == 'y' || add == 'Y' || add == 'yes' || add == 'YES' || add == 'Yes') {
-                productID = parseInt(prompt("Enter the product ID"));
-                name = prompt("Enter the product name");
-                price = parseFloat(prompt("Enter the product price"));
-                quantity = parseInt(prompt("Enter the product quantity"));
-
-                inventory.push({productID, name, price, quantity});
-
-                console.log("Product added successfully");
-
-            } else return false;
-
+        // Function to display inventory
+        function displayProduct() {
+            let display = "<h2>Inventory</h2><table><tr><th>Product ID</th><th>Name</th><th>Price</th><th>Quantity</th></tr>";
+            for (let i = 0; i < inventory.length; i++) {
+                display += "<tr><td>" + inventory[i].productID + "</td><td>" + inventory[i].name + "</td><td>$" + inventory[i].price + "</td><td>" + inventory[i].quantity + "</td></tr>";
+            }
+            display += "</table>";
+            document.getElementById("inventoryDisplay").innerHTML = display;
         }
 
-        // Remvove Product function
-        function removeProduct(productID) {
-            // Prompt use to ask if user want to remove product
-            let confirmRemove = prompt("Do you want to remove a product? (y/n)");
-            confirmRemove = confirmRemove.toLowerCase();
+        // Function to add product
+        function addProduct() {
+            let productID = parseInt(prompt("Enter the product ID"));
+            let name = prompt("Enter the product name");
+            let price = parseFloat(prompt("Enter the product price"));
+            let quantity = parseInt(prompt("Enter the product quantity"));
 
-            // Remove product
-            if (confirmRemove == 'y' || confirmRemove == 'yes'){
-                let confirmProductID = parseInt(prompt("Enter the product ID of the product that you want to remove"));
+            inventory.push({productID, name, price, quantity});
+            displayProduct();
+        }
 
-                // check the product exist in the inventory
-                let index = inventory.findIndex(product => product.productID == confirmProductID);
-                
-                if (index !== -1) {
-                    // Remove product from inventory
-                    inventory.splice(index, 1);
-                    console.log("Product removed successfully");
-                }else{
-                    console.log("Product not found in inventory.");
-                }
-           
+        // Function to remove product
+        function removeProduct() {
+            let productID = parseInt(prompt("Enter the product ID of the product that you want to remove"));
+            let index = inventory.findIndex(product => product.productID === productID);
+
+            if (index !== -1) {
+                inventory.splice(index, 1);
+                displayProduct();
             } else {
-                console.log("No product removed");
+                alert("Product not found in inventory.");
             }
         }
 
-        // Display Product function
-        function displayProduct() {
-            console.table(inventory);
-        }
-
-        // Calculate Total function
-        function calcaulteTotal() {
+        // Function to calculate total inventory value
+        function calculateTotal() {
             let total = 0;
             for (let i = 0; i < inventory.length; i++) {
                 total += inventory[i].price * inventory[i].quantity;
             }
-            console.log("Total inventory value: $" + total);
+            alert("Total inventory value: $" + total);
         }
 
-
-        // Function Call
+        // Display inventory initially
         displayProduct();
-        addProduct();
-        displayProduct();
-        removeProduct();
-        displayProduct();
-        calcaulteTotal();
        
     </script>
 </body>
